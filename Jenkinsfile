@@ -54,10 +54,10 @@ pipeline {
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} >> report.txt"
                     sh '''
-                        count="cat report.txt | wc -l"
+                        //count="cat report.txt | wc -l"
+                        count=$(cat report.txt | wc -l)
                         echo "Count: ${count}"
-                        if [count > 1]
-                        then
+                        if [ "${count}" -gt 1 ]; then
                             echo "Line count of catreport.txt is greater than 1"
                             // Add more actions here if needed
                         else 
