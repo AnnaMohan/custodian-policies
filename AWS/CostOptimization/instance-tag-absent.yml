@@ -10,12 +10,12 @@ policies:
   - type: notify
     template: default.html
     to:
-    - soumya.de@gmail.com
+    - soumya.de@nagarro.com
     subject: ACTION REQUIRED | EC2 Instances Missing Required Tag
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
   mode:
     type: periodic
-    schedule: rate(8 hours)
+    schedule: rate(4 hours)
     role: arn:aws:iam::200024982256:role/custodian
