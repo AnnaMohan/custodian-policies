@@ -59,10 +59,8 @@ pipeline {
                         echo "Count: ${count}"
                         if [ "${count}" -gt 1 ]; then
                             echo "Line count of catreport.txt is greater than 1"
-                            // Add more actions here if needed
                         else 
                             echo "Line count of catreport.txt is not greater than 1"
-                            // Add more actions here if needed 
                         fi   
                        '''
                 }
