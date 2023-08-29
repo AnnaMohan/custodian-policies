@@ -11,6 +11,7 @@ pipeline {
         string(name: 'AWS_ACCESS_KEY_ID', defaultValue: '', description: 'AWS Access Key')
         string(name: 'AWS_SECRET_ACCESS_KEY', defaultValue: '', description: 'AWS Secret Access Key')
         string(name: 'AWS_REGION', defaultValue: '', description: 'AWS Region')
+        string(name: 'Count', defaultValue: '', description: 'Count of Resources')
 
     }  
 
@@ -54,7 +55,7 @@ pipeline {
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
                     sh '''
-                        def count=$(cat report.txt | wc -l)
+                        count=$(cat report.txt | wc -l)
                         echo "Count: ${count}"
                         if [ "${count}" -gt 1 ]; then
                             echo "Resource is Not Compliant"
