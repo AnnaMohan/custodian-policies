@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        CUSTODIAN_BIN = '/var/lib/jenkins/custodian/bin/custodian'
+        //CUSTODIAN_BIN = '/var/lib/jenkins/custodian/bin/custodian'
         MAILER_CONFIG_PATH = '/var/lib/jenkins/custodian/bin/c7n-mailer' // Relative path to the mailer.yml file within the repository
         MAILER_FILE = '/var/lib/jenkins/mailer.yml'
     }
@@ -49,7 +49,7 @@ pipeline {
                     // Execute Cloud Custodian with the policy file
                     // sh "$CUSTODIAN_BIN run --cache-period 0 --output-dir=. ${params.POLICY_FILE_NAME}"
                     sh "pwd"
-                    //sh "$CUSTODIAN_BIN run --cache-period 0 --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME}"
+                    sh "$CUSTODIAN_BIN run --cache-period 0 --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME}"
                     //echo "sh $CUSTODIAN_BIN run --cache-period 0 --output-dir=.  ${params.POLICY_FILE_NAME}"
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
