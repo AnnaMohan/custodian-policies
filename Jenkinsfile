@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        //CUSTODIAN_BIN = '/var/lib/jenkins/custodian/bin/custodian'
+        CUSTODIAN_BIN = '/var/lib/jenkins/custodian/bin/custodian'
         MAILER_CONFIG_PATH = '/var/lib/jenkins/custodian/bin/c7n-mailer' // Relative path to the mailer.yml file within the repository
         MAILER_FILE = '/var/lib/jenkins/mailer.yml'
     }
@@ -54,7 +54,7 @@ pipeline {
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
                     sh '''
-                        count=$(cat report.txt | wc -l)
+                        def count=$(cat report.txt | wc -l)
                         echo "Count: ${count}"
                         if [ "${count}" -gt 1 ]; then
                             echo "Resource is Not Compliant"
