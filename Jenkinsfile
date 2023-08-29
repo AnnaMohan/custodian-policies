@@ -57,9 +57,9 @@ pipeline {
                         count=$(cat report.txt | wc -l)
                         echo "Count: ${count}"
                         if [ "${count}" -gt 1 ]; then
-                            echo "Resource is Compliant"
-                        else 
                             echo "Resource is Not Compliant"
+                        else 
+                            echo "Resource is Compliant"
                         fi   
                        '''
                 }
