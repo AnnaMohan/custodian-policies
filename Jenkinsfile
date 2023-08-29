@@ -57,9 +57,9 @@ pipeline {
                         count=$(cat report.txt | wc -l)
                         echo "Count: ${count}"
                         if [ "${count}" -gt 1 ]; then
-                            echo "Line count of catreport.txt is greater than 1"
+                            echo "Resource is Compliant"
                         else 
-                            echo "Line count of catreport.txt is not greater than 1"
+                            echo "Resource is Not Compliant"
                         fi   
                        '''
                 }
