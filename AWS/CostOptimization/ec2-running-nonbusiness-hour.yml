@@ -6,7 +6,7 @@ policies:
   filters:
   - type: value
     key: tag:Env
-    value: Devv
+    value: Dev
   actions:
   - type: notify
     template: default.html
