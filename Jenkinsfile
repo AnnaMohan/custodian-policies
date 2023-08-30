@@ -123,13 +123,13 @@ pipeline {
                 script {
                     // Fetch the content of report.txt artifact
                     def reportTxtContent = readFile('report.txt').trim()
-        
+
                     // Split the content into lines
                     def reportLines = reportTxtContent.split('\n')
-        
+
                     // Initialize an empty list to store dictionaries for each line
                     def reportJsonContent = []
-        
+
                     // Check if there's only one line or more
                     if (reportLines.size() == 1) {
                         def values = reportLines[0].split(',')
@@ -149,7 +149,7 @@ pipeline {
                             reportJsonContent.add(jsonLine)
                         }
                     }
-        
+
                     // Convert the reportJsonContent to JSON string
                     def buildJson = [:]
                     buildJson.artifacts = [
@@ -160,24 +160,24 @@ pipeline {
                         ]
                     ]
                     buildJson.reportContent = reportJsonContent
-        
+
                     // Convert the build JSON to a string
                     def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
-        
+
                     // Save the modified build JSON to a file
                     writeFile file: 'build_with_report.json', text: buildJsonString
-        
+
                     // Get the URL of the report.txt artifact
                     def reportArtifactUrl = "${env.BUILD_URL}artifact/report.txt"
                     echo "URL of report.txt: ${reportArtifactUrl}"
                 }
             }
         }
-
     }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'build_with_report.json', allowEmptyArchive: true
-                }
-            }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'build_with_report.json', allowEmptyArchive: true
+        }
+    }
 }
