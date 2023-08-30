@@ -88,30 +88,59 @@ pipeline {
                 }
             }
         }
+        // stage('Fetch Report Content') {
+        //     steps {
+        //         script {
+        //             // Fetch the content of report.json artifact
+        //             def reportJsonContent = readFile('report.json').trim()
+
+        //             // Add the report content to the build JSON
+        //             def buildJson = [:]
+        //             // ... (other build JSON properties)
+        //             buildJson.artifacts = [
+        //                 [
+        //                     displayPath: "report.json",
+        //                     fileName: "report.json",
+        //                     relativePath: "report.json"
+        //                 ]
+        //             ]
+        //             buildJson.reportContent = reportJsonContent
+
+        //             // Convert the build JSON to a string
+        //             def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
+
+        //             // Save the modified build JSON to a file
+        //             writeFile file: 'build_with_report.json', text: buildJsonString
+
+        //             // Get the URL of the report.json artifact
+        //             def reportArtifactUrl = "${env.BUILD_URL}artifact/report.json"
+        //             echo "URL of report.json: ${reportArtifactUrl}"
+        //         }
+        //     }
+        // }
         stage('Fetch Report Content') {
             steps {
                 script {
-                    // Fetch the content of report.json artifact
-                    def reportJsonContent = readFile('report.json').trim()
-
-                    // Add the report content to the build JSON
-                    def buildJson = [:]
-                    // ... (other build JSON properties)
-                    buildJson.artifacts = [
-                        [
-                            displayPath: "report.json",
-                            fileName: "report.json",
-                            relativePath: "report.json"
-                        ]
-                    ]
-                    buildJson.reportContent = reportJsonContent
-
-                    // Convert the build JSON to a string
-                    def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
-
-                    // Save the modified build JSON to a file
-                    writeFile file: 'build_with_report.json', text: buildJsonString
-
+                    // Read the content of report.txt
+                    def reportTxtContent = readFile('report.txt').trim()
+        
+                    // Split the report content into lines and extract the header and data rows
+                    def lines = reportTxtContent.split('\n')
+                    def header = lines[0].split(',')
+                    def dataRow = lines[1].split(',')
+        
+                    // Create a dynamic JSON object using the header as keys and data row as values
+                    def dynamicReportJson = [:]
+                    for (int i = 0; i < header.size(); i++) {
+                        dynamicReportJson[header[i].trim()] = dataRow[i].trim()
+                    }
+        
+                    // Convert the dynamic JSON object to a string
+                    def reportJsonString = groovy.json.JsonOutput.toJson(dynamicReportJson)
+        
+                    // Save the modified JSON to a file named report.json
+                    writeFile file: 'report.json', text: reportJsonString
+        
                     // Get the URL of the report.json artifact
                     def reportArtifactUrl = "${env.BUILD_URL}artifact/report.json"
                     echo "URL of report.json: ${reportArtifactUrl}"
