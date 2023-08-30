@@ -123,9 +123,11 @@ pipeline {
                 script {
                     // Read the content of report.txt
                     def reportTxtContent = readFile('report.txt').trim()
+                    println("Report Text Content: ${reportTxtContent}")
         
                     // Split the report content into lines and extract the header and data rows
                     def lines = reportTxtContent.split('\n')
+                    println("Number of Lines: ${lines.size()}")
                     def header = lines[0].split(',')
                     def dataRow = lines[1].split(',')
         
