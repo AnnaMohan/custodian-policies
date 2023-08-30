@@ -56,14 +56,19 @@ pipeline {
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
                     // Fetch the content of report.txt
                     // Fetch the content of report.txt
-                // Fetch the content of report.txt
+                    // Fetch the content of report.txt
                     def reportContent = sh(script: 'cat report.txt', returnStdout: true).trim()
-            
-            // Construct the API URL for Flask backend
-                    def apiUrl = "http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
-            
-            // Trigger the Flask backend using the Jenkins API and send report content
-                    sh "curl -X POST -H 'Content-Type: application/json' -d '{\"reportContent\": \"${reportContent}\"}' ${apiUrl}"
+
+            // Create a JSON object with report content
+                    def resultJson = [:]
+            resultJson.reportContent = reportContent
+
+            // Save JSON data to a temporary file
+                    writeFile file: 'temp_result.json', text: groovy.json.JsonOutput.toJson(resultJson)
+
+            // Use curl to send the data to Flask backend
+                    sh "curl -X POST -H 'Content-Type: application/json' -d @temp_result.json http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
+
 
         
                 }
