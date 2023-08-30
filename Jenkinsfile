@@ -121,34 +121,59 @@ pipeline {
         stage('Fetch Report Content') {
             steps {
                 script {
-                    // Read the content of report.txt
+                    // Fetch the content of report.txt artifact
                     def reportTxtContent = readFile('report.txt').trim()
-                    println("Report Text Content: ${reportTxtContent}")
         
-                    // Split the report content into lines and extract the header and data rows
-                    def lines = reportTxtContent.split('\n')
-                    println("Number of Lines: ${lines.size()}")
-                    def header = lines[0].split(',')
-                    def dataRow = lines[1].split(',')
+                    // Split the content into lines
+                    def reportLines = reportTxtContent.split('\n')
         
-                    // Create a dynamic JSON object using the header as keys and data row as values
-                    def dynamicReportJson = [:]
-                    for (int i = 0; i < header.size(); i++) {
-                        dynamicReportJson[header[i].trim()] = dataRow[i].trim()
+                    // Initialize an empty list to store dictionaries for each line
+                    def reportJsonContent = []
+        
+                    // Check if there's only one line or more
+                    if (reportLines.size() == 1) {
+                        def values = reportLines[0].split(',')
+                        def jsonLine = [:]
+                        for (int i = 0; i < values.size(); i++) {
+                            jsonLine["Field${i + 1}"] = values[i]
+                        }
+                        reportJsonContent.add(jsonLine)
+                    } else {
+                        // Iterate through each line and process the values
+                        reportLines.each { line ->
+                            def values = line.split(',')
+                            def jsonLine = [:]
+                            for (int i = 0; i < values.size(); i++) {
+                                jsonLine["Field${i + 1}"] = values[i]
+                            }
+                            reportJsonContent.add(jsonLine)
+                        }
                     }
         
-                    // Convert the dynamic JSON object to a string
-                    def reportJsonString = groovy.json.JsonOutput.toJson(dynamicReportJson)
+                    // Convert the reportJsonContent to JSON string
+                    def buildJson = [:]
+                    buildJson.artifacts = [
+                        [
+                            displayPath: "report.txt",
+                            fileName: "report.txt",
+                            relativePath: "report.txt"
+                        ]
+                    ]
+                    buildJson.reportContent = reportJsonContent
         
-                    // Save the modified JSON to a file named report.json
-                    writeFile file: 'report.json', text: reportJsonString
+                    // Convert the build JSON to a string
+                    def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
         
-                    // Get the URL of the report.json artifact
-                    def reportArtifactUrl = "${env.BUILD_URL}artifact/report.json"
-                    echo "URL of report.json: ${reportArtifactUrl}"
+                    // Save the modified build JSON to a file
+                    writeFile file: 'build_with_report.json', text: buildJsonString
+        
+                    // Get the URL of the report.txt artifact
+                    def reportArtifactUrl = "${env.BUILD_URL}artifact/report.txt"
+                    echo "URL of report.txt: ${reportArtifactUrl}"
                 }
             }
         }
+
     }
             post {
                 always {
