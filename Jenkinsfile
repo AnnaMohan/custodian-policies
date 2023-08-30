@@ -88,10 +88,10 @@ pipeline {
                 }
             }
         }
+    }
             post {
                 always {
                     archiveArtifacts artifacts: 'report.txt', allowEmptyArchive: true
                 }
             }
-    }
 }
