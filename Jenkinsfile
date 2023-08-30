@@ -54,7 +54,6 @@ pipeline {
                     //echo "sh $CUSTODIAN_BIN run --cache-period 0 --output-dir=.  ${params.POLICY_FILE_NAME}"
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
-                    stash name: 'report', includes: 'report.txt'
                     sh "cat report.txt"
                     sh '''
                         count=$(cat report.txt | wc -l)
@@ -89,11 +88,26 @@ pipeline {
                 }
             }
         }
+        stage('Fetch Report Content') {
+            steps {
+                script {
+                    // Fetch the content of report.txt artifact
+                    def reportContent = readFile('report.txt').trim()
+
+                    // Create a JSON object with the fetched report content
+                    def resultJson = [:]
+                    resultJson.reportContent = reportContent
+
+                    // Convert JSON object to string and save to a file
+                    def jsonFileContent = groovy.json.JsonOutput.toJson(resultJson)
+                    writeFile file: 'report.json', text: jsonFileContent
+                }
+            }
+        }
     }
             post {
                 always {
-                    unstash 'report'
-                    archiveArtifacts artifacts: 'report.txt', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'report.json', allowEmptyArchive: true
                 }
             }
 }
