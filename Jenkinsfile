@@ -101,13 +101,13 @@ pipeline {
                     def buildJson = [:]
                     // ... (other build JSON properties)
                     buildJson.artifacts = [
-                        {
+                        [
                             displayPath: "report.json",
                             fileName: "report.json",
-                            relativePath: "report.json",
-                            content: reportJson
-                        }
+                            relativePath: "report.json"
+                        ]
                     ]
+                    buildJson.reportContent = reportJson
 
                     // Convert the build JSON to a string
                     def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
