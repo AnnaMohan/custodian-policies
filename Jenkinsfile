@@ -11,8 +11,6 @@ pipeline {
         string(name: 'AWS_ACCESS_KEY_ID', defaultValue: '', description: 'AWS Access Key')
         string(name: 'AWS_SECRET_ACCESS_KEY', defaultValue: '', description: 'AWS Secret Access Key')
         string(name: 'AWS_REGION', defaultValue: '', description: 'AWS Region')
-        string(name: 'Count', defaultValue: '', description: 'Count of Resources')
-        string(name: 'Count', defaultValue: '', description: 'Count of Resources')
         string(name: 'POLICY_ID', defaultValue: '', description: 'Policy ID')  // Define POLICY_ID parameter
 
     }  
@@ -58,25 +56,15 @@ pipeline {
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
                     // Fetch the content of report.txt
                     // Fetch the content of report.txt
+                // Fetch the content of report.txt
                     def reportContent = sh(script: 'cat report.txt', returnStdout: true).trim()
+            
+            // Construct the API URL for Flask backend
+                    def apiUrl = "http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
+            
+            // Trigger the Flask backend using the Jenkins API and send report content
+                    sh "curl -X POST -H 'Content-Type: application/json' -d '{\"reportContent\": \"${reportContent}\"}' ${apiUrl}"
 
-                    // Determine condition result based on report content
-                    def conditionResult = "Resource is Compliant"
-                    if (reportContent && reportContent.split('\n').size() > 1) {
-                        conditionResult = "Resource is Not Compliant"
-                    }
-
-                    // Create a JSON object with report content and condition result
-                    def resultJson = [:]
-                    resultJson.reportContent = reportContent
-                    resultJson.conditionResult = conditionResult
-
-                    // Save JSON data to a file
-                    writeFile file: 'result.json', text: groovy.json.JsonOutput.toJson(resultJson)
-
-                    // Trigger the Flask backend using the Jenkins API
-                    def apiUrl = "sh "http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
-                    sh "curl -X POST -H 'Content-Type: application/json' -d @result.json ${apiUrl}"
         
                 }
             }
