@@ -91,23 +91,40 @@ pipeline {
         stage('Fetch Report Content') {
             steps {
                 script {
-                    // Fetch the content of report.txt artifact
-                    def reportContent = readFile('report.txt').trim()
+                    // Fetch the content of report.json artifact
+                    def reportJsonContent = readFile('report.json').trim()
 
-                    // Create a JSON object with the fetched report content
-                    def resultJson = [:]
-                    resultJson.reportContent = reportContent
+                    // Parse the fetched JSON content
+                    def reportJson = new JsonSlurper().parseText(reportJsonContent)
 
-                    // Convert JSON object to string and save to a file
-                    def jsonFileContent = groovy.json.JsonOutput.toJson(resultJson)
-                    writeFile file: 'report.json', text: jsonFileContent
+                    // Add the report JSON to the build JSON
+                    def buildJson = [:]
+                    // ... (other build JSON properties)
+                    buildJson.artifacts = [
+                        {
+                            displayPath: "report.json",
+                            fileName: "report.json",
+                            relativePath: "report.json",
+                            content: reportJson
+                        }
+                    ]
+
+                    // Convert the build JSON to a string
+                    def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
+
+                    // Save the modified build JSON to a file
+                    writeFile file: 'build_with_report.json', text: buildJsonString
+
+                    // Get the URL of the report.json artifact
+                    def reportArtifactUrl = "${env.BUILD_URL}artifact/report.json"
+                    echo "URL of report.json: ${reportArtifactUrl}"
                 }
             }
         }
     }
             post {
                 always {
-                    archiveArtifacts artifacts: 'report.json', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'build_with_report.json', allowEmptyArchive: true
                 }
             }
 }
