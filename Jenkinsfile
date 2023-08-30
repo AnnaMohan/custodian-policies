@@ -66,8 +66,12 @@ pipeline {
             // Save JSON data to a temporary file
                     writeFile file: 'temp_result.json', text: groovy.json.JsonOutput.toJson(resultJson)
 
-            // Use curl to send the data to Flask backend
-                    sh "curl -X POST -H 'Content-Type: application/json' -d @temp_result.json http://172.31.16.197:5003/policyDetails/Deploy/\${params.POLICY_ID}"
+            // Store the URL with interpolated POLICY_ID in the env variable
+                env.API_URL = "http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
+                
+                // Use the stored API_URL in the sh command
+                sh "curl -X POST -H 'Content-Type: application/json' -d @temp_result.json ${env.API_URL}"
+
 
 
         
