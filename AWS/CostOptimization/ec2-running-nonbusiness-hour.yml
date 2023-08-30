@@ -5,8 +5,8 @@ policies:
   resource: ec2
   filters:
   - type: value
-    key: tag:Env
-    value: Dev
+    key: tag:Team
+    value: RE
   actions:
   - type: notify
     template: default.html
