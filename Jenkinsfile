@@ -74,9 +74,6 @@ pipeline {
                     // Save JSON data to a file
                     writeFile file: 'result.json', text: groovy.json.JsonOutput.toJson(resultJson)
 
-                    // Fetch the POLICY_ID parameter
-                    def policyId = params.POLICY_ID
-
                     // Trigger the Flask backend using the Jenkins API
                     def apiUrl = "sh "http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
                     sh "curl -X POST -H 'Content-Type: application/json' -d @result.json ${apiUrl}"
