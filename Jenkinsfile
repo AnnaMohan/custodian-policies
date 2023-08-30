@@ -94,10 +94,7 @@ pipeline {
                     // Fetch the content of report.json artifact
                     def reportJsonContent = readFile('report.json').trim()
 
-                    // Parse the fetched JSON content
-                    def reportJson = new JsonSlurper().parseText(reportJsonContent)
-
-                    // Add the report JSON to the build JSON
+                    // Add the report content to the build JSON
                     def buildJson = [:]
                     // ... (other build JSON properties)
                     buildJson.artifacts = [
@@ -107,7 +104,7 @@ pipeline {
                             relativePath: "report.json"
                         ]
                     ]
-                    buildJson.reportContent = reportJson
+                    buildJson.reportContent = reportJsonContent
 
                     // Convert the build JSON to a string
                     def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
