@@ -11,7 +11,7 @@ pipeline {
         string(name: 'AWS_ACCESS_KEY_ID', defaultValue: '', description: 'AWS Access Key')
         string(name: 'AWS_SECRET_ACCESS_KEY', defaultValue: '', description: 'AWS Secret Access Key')
         string(name: 'AWS_REGION', defaultValue: '', description: 'AWS Region')
-        string(name: 'POLICY_ID', defaultValue: '', description: 'Policy ID')  // Define POLICY_ID parameter
+        string(name: 'Count', defaultValue: '', description: 'Count of Resources')
 
     }  
 
@@ -54,27 +54,15 @@ pipeline {
                     //echo "sh $CUSTODIAN_BIN run --cache-period 0 --output-dir=.  ${params.POLICY_FILE_NAME}"
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
-                    // Fetch the content of report.txt
-                    // Fetch the content of report.txt
-                    // Fetch the content of report.txt
-                    def reportContent = sh(script: 'cat report.txt', returnStdout: true).trim()
-
-            // Create a JSON object with report content
-                    def resultJson = [:]
-            resultJson.reportContent = reportContent
-
-            // Save JSON data to a temporary file
-                    writeFile file: 'temp_result.json', text: groovy.json.JsonOutput.toJson(resultJson)
-
-            // Store the URL with interpolated POLICY_ID in the env variable
-                env.API_URL = "http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
-                
-                // Use the stored API_URL in the sh command
-                sh "curl -X POST -H 'Content-Type: application/json' -d @temp_result.json ${env.API_URL}"
-
-
-
-        
+                    sh '''
+                        count=$(cat report.txt | wc -l)
+                        echo "Count: ${count}"
+                        if [ "${count}" -gt 1 ]; then
+                            echo "Resource is Not Compliant"
+                        else 
+                            echo "Resource is Compliant"
+                        fi   
+                       '''
                 }
             }
         }
