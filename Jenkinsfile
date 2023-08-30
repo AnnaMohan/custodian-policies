@@ -71,7 +71,7 @@ pipeline {
                     // Send JSON data to Flask backend
                     def jsonData = groovy.json.JsonOutput.toJson(resultJson)
                     sh "echo '${jsonData}' > result.json"  // Save JSON data to a file
-                    sh "curl -X POST -H 'Content-Type: application/json' -d @result.json http://172.31.16.197:5003/policyDetails/Deploy/${policy_id}"
+                    sh "curl -X POST -H 'Content-Type: application/json' -d @result.json http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
         
                 }
             }
