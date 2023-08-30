@@ -12,6 +12,8 @@ pipeline {
         string(name: 'AWS_SECRET_ACCESS_KEY', defaultValue: '', description: 'AWS Secret Access Key')
         string(name: 'AWS_REGION', defaultValue: '', description: 'AWS Region')
         string(name: 'Count', defaultValue: '', description: 'Count of Resources')
+        string(name: 'Count', defaultValue: '', description: 'Count of Resources')
+        string(name: 'POLICY_ID', defaultValue: '', description: 'Policy ID')  // Define POLICY_ID parameter
 
     }  
 
@@ -54,15 +56,23 @@ pipeline {
                     //echo "sh $CUSTODIAN_BIN run --cache-period 0 --output-dir=.  ${params.POLICY_FILE_NAME}"
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
-                    sh '''
-                        count=$(cat report.txt | wc -l)
-                        echo "Count: ${count}"
-                        if [ "${count}" -gt 1 ]; then
-                            echo "Resource is Not Compliant"
-                        else 
-                            echo "Resource is Compliant"
-                        fi   
-                       '''
+                    // Fetch the content of report.txt
+                    def reportContent = sh(script: 'cat report.txt', returnStdout: true).trim()
+                    // Determine condition result based on report content
+                    def conditionResult = "Resource is Compliant"
+                    if (reportContent && reportContent.split('\n').size() > 1) {
+                        conditionResult = "Resource is Not Compliant"
+                    }
+                    // Create a JSON object with report content and condition result
+                    def resultJson = [:]
+                    resultJson.reportContent = reportContent
+                    resultJson.conditionResult = conditionResult
+        
+                    // Send JSON data to Flask backend
+                    def jsonData = groovy.json.JsonOutput.toJson(resultJson)
+                    sh "echo '${jsonData}' > result.json"  // Save JSON data to a file
+                    sh "curl -X POST -H 'Content-Type: application/json' -d @result.json http://172.31.16.197:5003/policyDetails/Deploy/${policy_id}"
+        
                 }
             }
         }
