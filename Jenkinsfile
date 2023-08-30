@@ -57,21 +57,29 @@ pipeline {
                     sh "sleep 1m"
                     sh "$CUSTODIAN_BIN report --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME} > report.txt"
                     // Fetch the content of report.txt
+                    // Fetch the content of report.txt
                     def reportContent = sh(script: 'cat report.txt', returnStdout: true).trim()
+
                     // Determine condition result based on report content
                     def conditionResult = "Resource is Compliant"
                     if (reportContent && reportContent.split('\n').size() > 1) {
                         conditionResult = "Resource is Not Compliant"
                     }
+
                     // Create a JSON object with report content and condition result
                     def resultJson = [:]
                     resultJson.reportContent = reportContent
                     resultJson.conditionResult = conditionResult
-        
-                    // Send JSON data to Flask backend
-                    def jsonData = groovy.json.JsonOutput.toJson(resultJson)
-                    sh "echo '${jsonData}' > result.json"  // Save JSON data to a file
-                    sh "curl -X POST -H 'Content-Type: application/json' -d @result.json http://172.31.16.197:5003/policyDetails/Deploy/${params.POLICY_ID}"
+
+                    // Save JSON data to a file
+                    writeFile file: 'result.json', text: groovy.json.JsonOutput.toJson(resultJson)
+
+                    // Fetch the POLICY_ID parameter
+                    def policyId = params.POLICY_ID
+
+                    // Trigger the Flask backend using the Jenkins API
+                    def apiUrl = "http://172.31.16.197:5003/policyDetails/Deploy/${policyId}"
+                    sh "curl -X POST -H 'Content-Type: application/json' -d @result.json ${apiUrl}"
         
                 }
             }
