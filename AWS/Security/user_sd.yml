@@ -1,6 +1,6 @@
 policies:
 - name: users-with-admin-access
-  resource: aws.iam-user
+  resource: iam-user
   description: |
     This policy identifies IAM users with administrator-level access.
   filters:
