@@ -12,7 +12,7 @@ policies:
         to:
           - soumya.de@nagarro.com  # Replace with the email addresses of the users to be notified
         subject: ACTION REQUIRED | You have Unencrypted S3 Bucket 
-        template: finops_s3.html
+        template: default.html
         transport:
           type: sqs
           queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
