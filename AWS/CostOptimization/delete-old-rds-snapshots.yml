@@ -11,7 +11,7 @@ policies:
       template: default.html
       to:
       - soumya.de@nagarro.com
-      subject: ACTION REQUIRED | EC2 Instances Running in Non-Business Hours
+      subject: ACTION REQUIRED | Old RDS Snapshots present in AWS account
       transport:
         type: sqs
         queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
