@@ -1,6 +1,6 @@
 policies:
   - name: deactivate-inactive-iam-users
-    resource: aws.iam-user
+    resource: iam-user
     filters:
      - type: credential
        key: access_keys.last_used_date
