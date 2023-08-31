@@ -7,6 +7,6 @@ policies:
       - type: value
         key: DBInstanceStatus
         value: available  # Filter only available instances
-    actions:
-      - type: stop
+    # actions:
+    #   - type: stop
 
