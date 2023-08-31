@@ -1,9 +1,0 @@
-policies:
-- name: notify-instances-without-tags-or-missing-specific-tags
-  description: ABCDEFFG
-  resource: ec2
-  filters:
-  - or:
-    - 'tag:': absent
-  - and:
-    - tag:Team: absent
