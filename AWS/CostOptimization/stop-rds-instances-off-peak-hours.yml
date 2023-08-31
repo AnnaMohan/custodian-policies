@@ -1,24 +1,23 @@
 policies:
-  - name: stop-rds-instances-off-peak-hours
-    description: Stop RDS instances during off-peak hours if feasible
-    resource: rds
-    region: us-east-1  # Replace with your desired region
-    filters:
-      - type: value
-        key: DBInstanceStatus
-        value: available  # Filter only available instances
-    actions:
+- name: stop-rds-instances-off-peak-hours
+  description: Stop RDS instances during off-peak hours if feasible
+  resource: rds
+  region: us-east-1    # Replace with your desired region
+  filters:
+  - type: value
+    key: DBInstanceStatus
+    value: available      # Filter only available instances
+  actions:
     # - stop
-    - type: notify
-      template: default.html
-      to:
-      - soumya.de@nagarro.com
-      subject: ACTION REQUIRED | EC2 Instances Running in Non-Business Hours
-      transport:
-        type: sqs
-        queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-    mode:
-      type: periodic
-      schedule: rate(6 hours)
-      role: arn:aws:iam::200024982256:role/custodian
-
+  - type: notify
+    template: default.html
+    to:
+    - soumya.de@nagarro.com
+    subject: ACTION REQUIRED | EC2 Instances Running in Non-Business Hours
+    transport:
+      type: sqs
+      queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+  mode:
+    type: periodic
+    schedule: rate(5 hours)
+    role: arn:aws:iam::200024982256:role/custodian
