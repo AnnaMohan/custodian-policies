@@ -13,5 +13,16 @@ policies:
           value_type: age
           op: less-than
           value: 7
-    # actions:
-    #   - delete
+    actions:
+      - type: notify
+        to:
+          - your-email@example.com
+        subject: ALERT | 
+        template: default.html
+        transport:
+          type: sqs
+          queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+    mode:
+      type: periodic
+      schedule: rate(6 hours)
+      role: arn:aws:iam::200024982256:role/custodian
