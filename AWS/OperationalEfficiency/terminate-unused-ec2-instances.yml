@@ -5,8 +5,8 @@ policies:
   filters:
   - type: metrics
     name: CPUUtilization
-    value: 25
-    op: greater-than
+    value: 60
+    op:
   # - type: metrics
   #   name: CPUUtilization
   #   op: le
@@ -23,5 +23,5 @@ policies:
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
   mode:
     type: periodic
-    schedule: rate(5 hours)
+    schedule: rate(7 hours)
     role: arn:aws:iam::200024982256:role/custodian
