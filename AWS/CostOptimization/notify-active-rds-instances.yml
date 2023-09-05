@@ -19,5 +19,5 @@ policies:
     notificationType: sqs
   mode:
     type: periodic
-    schedule: rate(3 hours)
+    schedule: rate(6 hours)
     role: arn:aws:iam::200024982256:role/custodian
