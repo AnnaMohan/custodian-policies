@@ -4,8 +4,8 @@ policies:
   filters:
   - type: metrics
     name: CPUUtilization
-    value: 45
-    op:
+    value: 25
+    op: greater-than
     period: 604800      # 1 week in seconds
   actions:
     # - terminate
