@@ -6,7 +6,7 @@ policies:
     days: 100
     op: le
   actions:
-    # - delete
+  - delete
   - type: notify
     template: default.html
     to:
