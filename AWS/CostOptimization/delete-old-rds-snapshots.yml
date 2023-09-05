@@ -1,21 +1,21 @@
 policies:
-  - name: rds-snapshot-expired
-    resource: rds-snapshot
-    filters:
-      - type: age
-        days: 121
-        op: ge
-    actions:
+- name: rds-snapshot-expired
+  resource: rds-snapshot
+  filters:
+  - type: age
+    days: 121
+    op: ge
+  actions:
     # - delete
-    - type: notify
-      template: default.html
-      to:
-      - soumya.de@nagarro.com
-      subject: ACTION REQUIRED | Old RDS Snapshots present in AWS account
-      transport:
-        type: sqs
-        queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-    mode:
-      type: periodic
-      schedule: rate(6 hours)
-      role: arn:aws:iam::200024982256:role/custodian
+  - type: notify
+    template: default.html
+    to:
+    - soumya.de@nagarro.com
+    subject: ACTION REQUIRED | Old RDS Snapshots present in AWS account
+    transport:
+      type: sqs
+      queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+  mode:
+    type: periodic
+    schedule: rate(6 hours)
+    role: arn:aws:iam::200024982256:role/custodian
