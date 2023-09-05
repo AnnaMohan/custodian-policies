@@ -2,9 +2,9 @@ policies:
 - name: notify-instances-without-tags-or-missing-specific-tags
   resource: ec2
   filters:
-  - or:
-    - 'tag:': absent
-  - and:
+  # - or:
+  #   - 'tag:': absent
+  # - and:
     - tag:Team: absent
   actions:
   - type: notify
