@@ -1,23 +1,28 @@
 policies:
-  - name: identify-low-cpu-consuming-instances
-    resource: ec2
-    filters:
-      - type: metrics
-        name: CPUUtilization
-        value: 10
-        op: less-than
-        period: 604800  # 1 week in seconds
-    actions:
+- name: identify-low-cpu-consuming-instances
+  resource: ec2
+  filters:
+  - type: metrics
+    name: CPUUtilization
+    value: 10
+    op: less-than
+    period: 604800      # 1 week in seconds
+  - type: metrics
+    name: CPUUtilization
+    value: 75
+    op: ge
+  actions:
     # - terminate
-      - type: notify
-        template: default.html
-        to:
-        - soumya.de@nagarro.com
-        subject: ACTION REQUIRED | List of EC2 instances consuming less than 10% CPU in last 1 week
-        transport:
-          type: sqs
-          queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-    mode:
-        type: periodic
-        schedule: rate(6 hours)
-        role: arn:aws:iam::200024982256:role/custodian
+  - type: notify
+    template: default.html
+    to:
+    - example1@example.com
+    subject: ACTION REQUIRED | List of EC2 instances consuming less than 10% CPU in
+      last 1 week
+    transport:
+      type: sqs
+      queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+  mode:
+    type: periodic
+    schedule: rate(6 hours)
+    role: arn:aws:iam::200024982256:role/custodian
