@@ -6,7 +6,6 @@ policies:
     days: 100
     op: le
   actions:
-  - delete
   - type: notify
     template: default.html
     to:
@@ -15,6 +14,7 @@ policies:
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+  - delete
   mode:
     type: periodic
     schedule: rate(7 hours)
