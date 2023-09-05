@@ -12,8 +12,6 @@ policies:
   #   op: le
   #   value: 1
   #   days: 22
-    # actions:
-    #   - terminate
   actions:
   - type: notify
     template: default.html
