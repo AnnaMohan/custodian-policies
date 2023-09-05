@@ -5,8 +5,8 @@ policies:
   filters:
   - type: metrics
     name: CPUUtilization
-    value: 60
-    op:
+    value: 70
+    op: greater-than
   # - type: metrics
   #   name: CPUUtilization
   #   op: le
