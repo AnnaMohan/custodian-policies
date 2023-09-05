@@ -5,9 +5,13 @@ policies:
   filters:
   - type: metrics
     name: CPUUtilization
-    op: le
-    value: 1
-    days: 22
+    value: 25
+    op: greater-than
+  # - type: metrics
+  #   name: CPUUtilization
+  #   op: le
+  #   value: 1
+  #   days: 22
     # actions:
     #   - terminate
   actions:
