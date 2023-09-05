@@ -5,7 +5,7 @@ policies:
   resource: ebs-snapshot
   filters:
   - type: age
-    days: 30
+    days: 100
     op: le
   actions:
   - type: notify
