@@ -4,7 +4,7 @@ policies:
   filters:
   - type: age
     days: 100
-    op: ge
+    op: le
   actions:
     # - delete
   - type: notify
