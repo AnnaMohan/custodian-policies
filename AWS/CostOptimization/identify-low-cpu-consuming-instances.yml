@@ -7,10 +7,6 @@ policies:
     value: 10
     op: less-than
     period: 604800      # 1 week in seconds
-  - type: metrics
-    name: CPUUtilization
-    value: 75
-    op: ge
   actions:
     # - terminate
   - type: notify
