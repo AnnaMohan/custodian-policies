@@ -1,24 +1,24 @@
 policies:
-  - name: stop-idle-ec2-instances
-    resource: ec2
-    filters:
-      - type: metrics
-        name: CPUUtilization
-        value: 1
-        op: less-than
+- name: stop-idle-ec2-instances
+  resource: ec2
+  filters:
+  - type: metrics
+    name: CPUUtilization
+    value: 1
+    op: less-than
         # aggregation: average
         # period: 86400  # 24 hours
-    actions:
+  actions:
     # - stop
-    - type: notify
-      template: default.html
-      to:
-      - soumya.de@nagarro.com
-      subject: ACTION REQUIRED | List of idle EC2 instances present 
-      transport:
-        type: sqs
-        queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-    mode:
-      type: periodic
-      schedule: rate(6 hours)
-      role: arn:aws:iam::200024982256:role/custodian
+  - type: notify
+    template: default.html
+    to:
+    - soumya.de@nagarro.com
+    subject: ACTION REQUIRED | List of idle EC2 instances present
+    transport:
+      type: sqs
+      queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+  mode:
+    type: periodic
+    schedule: rate(9 hours)
+    role: arn:aws:iam::200024982256:role/custodian
