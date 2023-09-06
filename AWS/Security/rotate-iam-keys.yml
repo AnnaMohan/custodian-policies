@@ -1,25 +1,25 @@
 policies:
-  - name: rotate-iam-keys
-    resource: aws.iam-user
-    filters:
-      - type: access-key
-        key: Status
-        value: Active
-      - type: access-key
-        key: CreateDate
-        value_type: age
-        value: 90  # Number of days after which keys should be rotated
-        op: le
-    actions:
-    - type: notify
-      template: default.html
-      to:
-      - soumya.de@nagarro.com
-      subject: ACTION REQUIRED | Users have not used Access Keys 
-      transport:
-        type: sqs
-        queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-    mode:
-      type: periodic
-      schedule: rate(6 hours)
-      role: arn:aws:iam::200024982256:role/custodian
+- name: rotate-iam-keys
+  resource: aws.iam-user
+  filters:
+  - type: access-key
+    key: Status
+    value: Active
+  - type: access-key
+    key: CreateDate
+    value_type: age
+    value: 90      # Number of days after which keys should be rotated
+    op: le
+  actions:
+  - type: notify
+    template: default.html
+    to:
+    - soumya.de@nagarro.com
+    subject: ACTION REQUIRED | Users have not used Access Keys
+    transport:
+      type: sqs
+      queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+  mode:
+    type: periodic
+    schedule: rate(7 hours)
+    role: arn:aws:iam::200024982256:role/custodian
