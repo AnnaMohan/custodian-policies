@@ -1,6 +1,6 @@
 policies:
 - name: rotate-iam-keys
-  resource: aws.iam-user
+  resource: iam-user
   filters:
   - type: access-key
     key: Status
