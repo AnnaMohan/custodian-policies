@@ -1,0 +1,22 @@
+policies:
+  - name: monitor-network-io
+    resource: ec2
+    filters:
+      - type: metrics
+        name: NetworkOut
+        value: 100
+        op: greater-than
+        period: 3600  # 1 hour
+    actions:
+    - type: notify
+      template: default.html
+      to:
+      - soumya.de@nagarro.com
+      subject: ACTION REQUIRED | monitors AWS EC2 instances for excessive NetworkOut
+      transport:
+        type: sqs
+        queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+    mode:
+      type: periodic
+      schedule: rate(7 hours)
+      role: arn:aws:iam::200024982256:role/custodian
