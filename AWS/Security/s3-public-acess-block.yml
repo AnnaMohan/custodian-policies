@@ -1,0 +1,17 @@
+policies:
+    - name: Check-For-PublicAclBlock-Off
+      resource: s3
+      region: us-east-1
+      filters:
+        - type: check-public-block
+          BlockPublicAcls: false   #false means it'll display bucktes which are publicly accessible
+          BlockPublicPolicy: false
+      actions:
+        - type: notify
+          to:
+            - your-email@example.com
+          subject: ACTION REQUIRED | S3 Buckets are publicly accessible
+          template: default.html
+          transport:
+            type: sqs
+            queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
