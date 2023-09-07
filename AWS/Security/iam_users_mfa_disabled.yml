@@ -2,7 +2,7 @@ policies:
   - name: notify-users-no-mfa
     description: |
       Notifies IAM users who have not enabled Multi-Factor Authentication (MFA).
-    resource: aws.iam-user
+    resource: iam-user
     filters:
       - type: mfa-device
         value: []
