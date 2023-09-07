@@ -1,7 +1,7 @@
 policies:
   - name: rds-backup-retention
     description: Enforce RDS backup retention
-    resource: aws.rds
+    resource: rds
     filters:
       - type: value
         key: BackupRetentionPeriod
