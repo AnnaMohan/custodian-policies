@@ -1,6 +1,6 @@
 policies:
 - name: find-unused-route53-hosted-zones
-  resource: aws.hostedzone
+  resource: hostedzone
   filters:
   - type: value
     key: ResourceRecordSets[?Type != 'NS' && Type != 'SOA']
