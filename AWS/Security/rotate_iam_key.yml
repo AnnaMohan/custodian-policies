@@ -1,5 +1,5 @@
 policies:
-- name: rotate-iam-keys
+- name: rotate-iAM-keys
   resource: iam-user
   filters:
   - type: access-key
