@@ -1,5 +1,6 @@
 policies:
 - name: enforce-rds-instance-type
+  description: Resize RDS Instances based on CPU Utilization
   resource: rds
   filters:
   - type: metrics
