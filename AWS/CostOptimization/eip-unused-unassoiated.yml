@@ -12,7 +12,7 @@ policies:
     to:
     - soumya.de@gmail.com
     subject: ACTION REQUIRED | You have Unused and Unattached Elastic IP
-    template: finops_eip.html
+    template: default.html
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
