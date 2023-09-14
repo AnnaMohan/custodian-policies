@@ -17,6 +17,6 @@ policies:
           queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
     mode:
       type: periodic
-      schedule: rate(1 minutes)
+      schedule: rate(2 minutes)
       role: arn:aws:iam::200024982256:role/custodian
 
