@@ -11,7 +11,7 @@ policies:
         to:
          - soumya.de@nagarro.com  # User-specific email addresses will be passed in the 'to_email' variable
         subject: ACTION REQUIRED | IAM users who have not enabled Multi-Factor Authentication
-        template: finops_iam_mfa.html
+        template: default.html
         transport:
           type: sqs  # Transport type will be passed in the 'transport_type' variable
           queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
