@@ -1,5 +1,5 @@
 policies:
-  - name: notify-users-no-mfa
+  - name: iam_users_mfa_disabled
     description: |
       Notifies IAM users who have not enabled Multi-Factor Authentication (MFA).
     resource: iam-user
