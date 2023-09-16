@@ -1,12 +1,12 @@
 policies:
-- name: notify-running-instances
+- name: ec2-nonbusiness-hour-running
   description: |
     Notifies customers about running EC2 instances at 6 PM to remind them to take action on the instances.
   resource: ec2
   filters:
   - type: value
     key: tag:Team
-    value: RE
+    value: FinOps
   actions:
   - type: notify
     template: default.html
