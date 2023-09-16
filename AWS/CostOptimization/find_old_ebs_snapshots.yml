@@ -1,5 +1,5 @@
 policies:
-- name: old-ebs-snapshots
+- name: find_old_ebs_snapshots
   description: |
     Notifies Customer about 30 days Old EBS Snapshots
   resource: ebs-snapshot
