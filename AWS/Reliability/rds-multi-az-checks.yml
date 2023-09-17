@@ -1,5 +1,5 @@
 policies:
-  - name: rds-multi-az-check
+  - name: rds-multi-az-checks
     resource: rds
     description: |
       Check if Amazon RDS instances are deployed in a Multi-AZ configuration.
