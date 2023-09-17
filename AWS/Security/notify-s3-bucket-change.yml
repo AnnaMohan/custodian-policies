@@ -1,5 +1,5 @@
 policies:
-  - name: notify-s3-bucket-changes
+  - name: notify-s3-bucket-change
     description: |
       Notifies about changes in S3 buckets.
     resource: s3
@@ -18,4 +18,8 @@ policies:
         transport:
           type: sqs
           queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+    mode:
+        type: periodic
+        schedule: rate(7 hours)
+        role: arn:aws:iam::200024982256:role/custodian
 
