@@ -1,5 +1,5 @@
 policies:
-- name: service-quota-usage-limit
+- name: service-quota-limit
   description: |
       Find any services that have usage stats of over 80%
   resource: service-quota
