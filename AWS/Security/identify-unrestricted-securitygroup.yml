@@ -1,5 +1,5 @@
 policies:
-  - name: identify-unrestricted-sg
+  - name: identify-unrestricted-securitygroup
     description: This policy detects AWS security groups with unrestricted access to specified ports and takes defined actions.
     resource: security-group
     filters:
@@ -19,3 +19,7 @@ policies:
         transport:
           type: sqs
           queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+    mode:
+        type: periodic
+        schedule: rate(7 hours)
+        role: arn:aws:iam::200024982256:role/custodian
