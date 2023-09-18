@@ -8,8 +8,8 @@ pipeline {
     }
     parameters {
         string(name: 'POLICY_FILE_NAME', defaultValue: '', description: 'Name of the policy file')
-        string(name: 'AWS_ACCESS_KEY_ID', defaultValue: '', description: 'AWS Access Key')
-        string(name: 'AWS_SECRET_ACCESS_KEY', defaultValue: '', description: 'AWS Secret Access Key')
+        // string(name: 'AWS_ACCESS_KEY_ID', defaultValue: '', description: 'AWS Access Key')
+        // string(name: 'AWS_SECRET_ACCESS_KEY', defaultValue: '', description: 'AWS Secret Access Key')
         string(name: 'AWS_REGION', defaultValue: '', description: 'AWS Region')
         string(name: 'Count', defaultValue: '', description: 'Count of Resources')
 
@@ -20,6 +20,22 @@ pipeline {
             steps {
                 // Checkout the code from your Git repository
                 git branch: 'master', credentialsId: 'GIT_PAT', url: 'https://github.com/Soumya220/custodian-policies.git'
+            }
+        }
+        
+        stage('Fetch AWS Keys from API') {
+            steps {
+                script {
+                    def apiUrl = 'http://127.0.0.1:5000/api8/getSecret/Test'
+                    def response = sh(script: "curl -s '$apiUrl'", returnStdout: true).trim()
+                    def jsonSlurper = new groovy.json.JsonSlurper()
+                    def keys = jsonSlurper.parseText(response)
+                    env.AWS_ACCESS_KEY_ID = keys[0].Access_ID
+                    env.AWS_SECRET_ACCESS_KEY = keys[0].Secret_Access_Key
+                                // Echo the keys (Not recommended for production)
+                    echo "AWS Access Key ID: ${env.AWS_ACCESS_KEY_ID}"
+                    echo "AWS Secret Access Key: ${env.AWS_SECRET_ACCESS_KEY}"
+                }
             }
         }
 
