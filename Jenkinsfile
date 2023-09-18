@@ -38,6 +38,9 @@ pipeline {
         stage('Execute Policy File') {
             steps {
                 script {
+
+                    echo "AWS Access Key ID: ${params.AWS_ACCESS_KEY_ID}"
+                    echo "AWS Secret Access Key: ${params.AWS_SECRET_ACCESS_KEY}"
                     // Use the POLICY_FILE_NAME parameter in your pipeline steps
                     echo "Building job with policy file: ${params.POLICY_FILE_NAME}"
                     
