@@ -26,7 +26,7 @@ pipeline {
         stage('Fetch AWS Keys from API') {
             steps {
                 script {
-                    def apiUrl = 'http://127.0.0.1:5000/api8/getSecret/Test'
+                    def apiUrl = 'http://18.232.174.171:5003/api8/getSecret/Test'
                     def response = sh(script: "curl -s '$apiUrl'", returnStdout: true).trim()
                     def jsonSlurper = new groovy.json.JsonSlurper()
                     def keys = jsonSlurper.parseText(response)
