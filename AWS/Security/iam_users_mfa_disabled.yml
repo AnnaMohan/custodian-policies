@@ -1,22 +1,21 @@
 policies:
-  - name: iam_users_mfa_disabled
-    description: |
-      Notifies IAM users who have not enabled Multi-Factor Authentication (MFA).
-    resource: iam-user
-    filters:
-      - type: mfa-device
-        value: []
-    actions:
-      - type: notify
-        to:
-         - soumya.de@nagarro.com  # User-specific email addresses will be passed in the 'to_email' variable
-        subject: ACTION REQUIRED | IAM users who have not enabled Multi-Factor Authentication
-        template: default.html
-        transport:
-          type: sqs  # Transport type will be passed in the 'transport_type' variable
-          queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-    mode:
-      type: periodic
-      schedule: rate(2 hours)
-      role: arn:aws:iam::200024982256:role/custodian
-
+- name: iam_users_mfa_disabled
+  description: |
+    Notifies IAM users who have not enabled Multi-Factor Authentication (MFA).
+  resource: iam-user
+  filters:
+  - type: mfa-device
+    value: []
+  actions:
+  - type: notify
+    to:
+    - soumya.de@nagarro.com
+    subject: ACTION REQUIRED | IAM users who have not enabled Multi-Factor Authentication
+    template: default.html
+    transport:
+      type: sqs      # Transport type will be passed in the 'transport_type' variable
+      queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+  mode:
+    type: periodic
+    schedule: rate(9 hours)
+    role: arn:aws:iam::200024982256:role/custodian
