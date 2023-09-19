@@ -22,16 +22,12 @@ pipeline {
                 git branch: 'master', credentialsId: 'GIT_PAT', url: 'https://github.com/Soumya220/custodian-policies.git'
             }
         }
-        
-        
+              
         stage('Fetch Policy File') {
             steps {
                 script {
                     // Use the POLICY_FILE_NAME parameter in your pipeline steps
                     echo "Building job with policy file: ${params.POLICY_FILE_NAME}"
-                    
-                    // Modify this line to use the POLICY_FILE_NAME parameter in your build steps
-                    // sh "some_command --policy ${params.POLICY_FILE_NAME}"
                 }
             }
         }
@@ -51,8 +47,6 @@ pipeline {
         
                     // Ensure the custodian executable has the correct permissions
                     sh "chmod +x $CUSTODIAN_BIN"
-                    // Execute Cloud Custodian with the policy file
-                    // sh "$CUSTODIAN_BIN run --cache-period 0 --output-dir=. ${params.POLICY_FILE_NAME}"
                     sh "pwd"
                     sh "$CUSTODIAN_BIN run --cache-period 0 --output-dir s3://my-bucket-custodian/ ${params.POLICY_FILE_NAME}"
                     //echo "sh $CUSTODIAN_BIN run --cache-period 0 --output-dir=.  ${params.POLICY_FILE_NAME}"
@@ -92,36 +86,6 @@ pipeline {
                 }
             }
         }
-        // stage('Fetch Report Content') {
-        //     steps {
-        //         script {
-        //             // Fetch the content of report.json artifact
-        //             def reportJsonContent = readFile('report.json').trim()
-
-        //             // Add the report content to the build JSON
-        //             def buildJson = [:]
-        //             // ... (other build JSON properties)
-        //             buildJson.artifacts = [
-        //                 [
-        //                     displayPath: "report.json",
-        //                     fileName: "report.json",
-        //                     relativePath: "report.json"
-        //                 ]
-        //             ]
-        //             buildJson.reportContent = reportJsonContent
-
-        //             // Convert the build JSON to a string
-        //             def buildJsonString = groovy.json.JsonOutput.toJson(buildJson)
-
-        //             // Save the modified build JSON to a file
-        //             writeFile file: 'build_with_report.json', text: buildJsonString
-
-        //             // Get the URL of the report.json artifact
-        //             def reportArtifactUrl = "${env.BUILD_URL}artifact/report.json"
-        //             echo "URL of report.json: ${reportArtifactUrl}"
-        //         }
-        //     }
-        // }
         stage('Fetch Report Content') {
             steps {
                 script {
