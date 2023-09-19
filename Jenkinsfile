@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        CUSTODIAN_BIN = '/var/lib/jenkins/custodian/bin/custodian'
+        #CUSTODIAN_BIN = '/var/lib/jenkins/custodian/bin/custodian'
         MAILER_CONFIG_PATH = '/var/lib/jenkins/custodian/bin/c7n-mailer' // Relative path to the mailer.yml file within the repository
         MAILER_FILE = '/var/lib/jenkins/mailer.yml'
     }
