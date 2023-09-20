@@ -8,12 +8,15 @@ policies:
     key: DBInstanceStatus
     value: available      # Filter only available instances
   actions:
-    # - stop
+  # - stop
   - type: notify
     template: default.html
+    subject: Compliance Alert | RDS instances Running in Non Business Hours
+    violation_desc: "The List of RDS Instances: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | List of RDS instances running in non-business hours
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
