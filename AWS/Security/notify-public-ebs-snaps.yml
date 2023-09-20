@@ -11,19 +11,19 @@ policies:
       - type: cross-account
         whitelist:
           - "200024982256"  # Replace with the AWS account ID you want to check for public snapshots
-
     actions:
-      - type: notify
-        to:
-          - your-email@example.com
-        subject: ALERT | Public EBS Snapshots Found
-        template: default.html
-        transport:
-          type: sqs
-          queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-
+    - type: notify
+      template: default.html
+      subject: Compliance Alert | EBS Snapshots with Public Accss Found
+      violation_desc: "The List EBS Snapshots which are publicly accessible:"
+      action_desc: |
+          "Please Investigate and Take Action"
+      to:
+        - soumya.de@nagarro.com
+      transport:
+        type: sqs
+        queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
     mode:
       type: periodic
       schedule: rate(4 hours)
       role: arn:aws:iam::200024982256:role/custodian
-
