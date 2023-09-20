@@ -9,10 +9,13 @@ policies:
     value: AdministratorAccess
   actions:
   - type: notify
-    to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | Notification of IAM users who have AdministratorAccess
     template: default.html
+    subject: "IAM Users Having Administrator Access"
+    violation_desc: "The List of users who have Administrator Access: "
+    action_desc: |
+        "Please investigate and revoke the access if not required"
+    to:
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
