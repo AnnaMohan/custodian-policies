@@ -9,9 +9,12 @@ policies:
   actions:
   - type: notify
     template: default.html
+    subject: Compliance Alert | EC2 Instances Missing Required Tag
+    violation_desc: "The List of EC2 Instances: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | EC2 Instances Missing Required Tag
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
