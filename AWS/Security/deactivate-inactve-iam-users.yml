@@ -10,17 +10,20 @@ policies:
   actions:
   - type: notify
     template: default.html
-    to:
-    - soumya.de@nagarro.com
     subject: ACTION REQUIRED | List of IAM User(s) have not used Keys
+    violation_desc: "The List of IAM Users who have not used Secret-Access Keys:"
+    action_desc: |
+        "Please investigate and revoke the access if not required"
+    to:
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-  - type: remove-keys
-    disable: true
-    age: 90    # if we wanted to disable keys after 90 days of non-use 
-  - type: remove-keys
-    age: 180     # delete them after 180 days of nonuse
+  # - type: remove-keys
+  #   disable: true
+  #   age: 90    # if we wanted to disable keys after 90 days of non-use 
+  # - type: remove-keys
+  #   age: 180     # delete them after 180 days of nonuse
   mode:
     type: periodic
     schedule: rate(8 hours)
