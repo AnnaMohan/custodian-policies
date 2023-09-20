@@ -14,13 +14,15 @@ policies:
   actions:
   - type: notify
     template: default.html
+    subject: Compliance Alert | Found Unattached EBS volumes 
+    violation_desc: "The List of EBS Volumes: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - user@example.com
-    subject: ACTION REQUIRED | Unattached EBS volumes found
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
-    notificationType: sqs
   mode:
     type: periodic
     schedule: rate(6 hours)
