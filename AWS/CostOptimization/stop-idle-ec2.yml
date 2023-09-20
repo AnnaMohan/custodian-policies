@@ -9,12 +9,15 @@ policies:
         # aggregation: average
         # period: 86400  # 24 hours
   actions:
-    # - stop
+  # - stop
   - type: notify
     template: default.html
+    subject: Action Required | EC2 Instances whose CPU Utilization is less than 10%
+    violation_desc: "The List of EC2 Instances: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | List of idle EC2 instances present
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
