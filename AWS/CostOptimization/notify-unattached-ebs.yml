@@ -14,12 +14,12 @@ policies:
   actions:
   - type: notify
     template: default.html
-    subject: Compliance Alert | Found Unattached EBS volumes 
-    violation_desc: "The List of EBS Volumes: "
+    subject: Compliance Alert | Found Unattached EBS volumes
+    violation_desc: 'The List of EBS Volumes: '
     action_desc: |
-        "Please Investigate and Take Action"
+      "Please Investigate and Take Action"
     to:
-      - soumya.de@nagarro.com
+    - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
