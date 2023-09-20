@@ -9,10 +9,13 @@ policies:
     value:
   actions:
   - type: notify
-    to:
-    - soumya.de@gmail.com
-    subject: ACTION REQUIRED | You have Unused and Unattached Elastic IP
     template: default.html
+    subject: Action Required | Unused & Unassoiated ElsticIPs Found
+    violation_desc: "The List of EIPs: "
+    action_desc: |
+        "Please Investigate and Take Action"
+    to:
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
