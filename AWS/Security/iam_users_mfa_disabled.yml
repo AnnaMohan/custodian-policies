@@ -10,15 +10,15 @@ policies:
   - type: notify
     template: default.html
     subject: ACTION REQUIRED | IAM Users with MFA Disabled
-    violation_desc: "The List of IAM Users who have MFA Disabled:"
+    violation_desc: 'The List of IAM Users who have MFA Disabled:'
     action_desc: |
-        "Please Investigate and Take Action"
+      "Please Investigate and Take Action"
     to:
-      - soumya.de@nagarro.com
+    - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
   mode:
     type: periodic
-    schedule: rate(9 hours)
+    schedule: rate(8 hours)
     role: arn:aws:iam::200024982256:role/custodian
