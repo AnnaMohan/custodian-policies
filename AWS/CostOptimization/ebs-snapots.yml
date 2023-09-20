@@ -9,10 +9,13 @@ policies:
     op: le
   actions:
   - type: notify
+    template: default.html
+    subject: Action Required | EBS Snapshots Found Which Are More Than 30 Days Old
+    violation_desc: "The List of EBS Snapshots: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - soumya.de@nagarro.com
-    subject: URGENT | Notification of EBS Snapshots which are 30 days old
-    template: finops.html
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
