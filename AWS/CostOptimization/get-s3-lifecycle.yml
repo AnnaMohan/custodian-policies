@@ -20,9 +20,12 @@ policies:
                 StorageClass: STANDARD_IA
       - type: notify
         template: default.html
+        subject: Action Required | Enables Lifecycle Policy To The Filtered Buckets
+        violation_desc: "The List of S3 Buckets: "
+        action_desc: |
+            "Please Investigate and Take Action"
         to:
-        - soumya.de@nagarro.com
-        subject: ACTION REQUIRED | Enables lifecycle policy to the filtered buckets
+          - soumya.de@nagarro.com
         transport:
           type: sqs
           queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
