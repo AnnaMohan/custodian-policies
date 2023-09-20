@@ -8,12 +8,15 @@ policies:
     value: []
   actions:
   - type: notify
-    to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | IAM users who have not enabled Multi-Factor Authentication
     template: default.html
+    subject: ACTION REQUIRED | IAM Users with MFA Disabled
+    violation_desc: "The List of IAM Users who have MFA Disabled:"
+    action_desc: |
+        "Please Investigate and Take Action"
+    to:
+      - soumya.de@nagarro.com
     transport:
-      type: sqs      # Transport type will be passed in the 'transport_type' variable
+      type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
   mode:
     type: periodic
