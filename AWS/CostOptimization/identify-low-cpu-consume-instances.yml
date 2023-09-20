@@ -11,10 +11,12 @@ policies:
     # - terminate
   - type: notify
     template: default.html
+    subject: Action Required | List of EC2 instances consuming less than 10% CPU in last 1 week
+    violation_desc: "The List of EC2 Instances: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - example1@example.com
-    subject: ACTION REQUIRED | List of EC2 instances consuming less than 10% CPU in
-      last 1 week
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
