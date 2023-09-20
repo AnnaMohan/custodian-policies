@@ -12,9 +12,12 @@ policies:
   actions:
   - type: notify
     template: default.html
+    subject: Action Required | ECR Images Found Which Are Older Than 30 Days
+    violation_desc: "The List of ECR Images: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | List of ECR images which are older than 30 days
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
