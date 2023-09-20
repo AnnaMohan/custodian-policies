@@ -9,9 +9,12 @@ policies:
   actions:
   - type: notify
     template: default.html
+    subject: Compliance Alert | Route53 Hosted Zones Found which Are Not In Use
+    violation_desc: "The List of Route53: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | List of unused Route53 present in AWS account
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
