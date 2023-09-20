@@ -11,17 +11,20 @@ policies:
         # the below represents those users who have used services recently
           type: value
           value_type: age
-          op: less-than
-          value: 7
+          op: ge
+          value: 30
     actions:
-      - type: notify
-        to:
-          - your-email@example.com
-        subject: ALERT | 
-        template: default.html
-        transport:
-          type: sqs
-          queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
+    - type: notify
+      template: default.html
+      subject: Action Required | IAM Users who have not used any AWS services since last 30 days
+      violation_desc: "The List of IAM Users: "
+      action_desc: |
+          "Please Investigate and Take Action"
+      to:
+        - soumya.de@nagarro.com
+      transport:
+        type: sqs
+        queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
     mode:
       type: periodic
       schedule: rate(6 hours)
