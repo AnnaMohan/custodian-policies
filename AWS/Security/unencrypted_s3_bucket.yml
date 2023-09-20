@@ -9,10 +9,13 @@ policies:
     state: false
   actions:
   - type: notify
+    template: default.html
+    subject: Compliance ALERT | You have Unencrypted S3 Bucket
+    violation_desc: "The List of S3 Buckets which are unencrypted: "
+    action_desc: |
+        "Please Investigate and Take Action"
     to:
-    - soumya.de@nagarro.com
-    subject: ACTION REQUIRED | You have Unencrypted S3 Bucket
-    template: finops_s3.html
+      - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
