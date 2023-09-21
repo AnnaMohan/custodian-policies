@@ -10,16 +10,16 @@ policies:
   actions:
   - type: notify
     template: default.html
-    subject: "IAM Users Having Administrator Access"
-    violation_desc: "The List of users who have Administrator Access: "
+    subject: IAM Users Having Administrator Access
+    violation_desc: 'The List of users who have Administrator Access: '
     action_desc: |
-        "Please investigate and revoke the access if not required"
+      "Please investigate and revoke the access if not required"
     to:
-      - soumya.de@nagarro.com
+    - soumya.de@nagarro.com
     transport:
       type: sqs
       queue: https://sqs.us-east-1.amazonaws.com/200024982256/MyQueue
   mode:
     type: periodic
-    schedule: rate(9 hours)
+    schedule: rate(8 hours)
     role: arn:aws:iam::200024982256:role/custodian
