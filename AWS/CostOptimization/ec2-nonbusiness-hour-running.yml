@@ -1,5 +1,5 @@
 policies:
-- name: ec2-nonbusiness-hour-running
+- name: CO1011ec2-nonbusiness-hour-running
   description: |
     Notifies customers about running EC2 instances at 6 PM to remind them to take action on the instances.
   resource: ec2
