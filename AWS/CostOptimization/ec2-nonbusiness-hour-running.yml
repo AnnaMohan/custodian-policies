@@ -22,4 +22,6 @@ policies:
   mode:
     type: periodic
     schedule: rate(10 minutes)
+    execution-options:
+            output_dir: s3://my-bucket-custodian/
     role: arn:aws:iam::200024982256:role/custodian
